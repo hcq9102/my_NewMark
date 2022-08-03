@@ -1,2 +1,5 @@
 # my_NewMark
-record/ log/ plan.../
+For recording/ log/ learn /plan.../
+
+Blaze:
+https://bitbucket.org/blaze-lib/blaze.git
