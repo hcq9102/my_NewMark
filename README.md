@@ -1,4 +1,4 @@
-# my_NewMark
+# my_Newmark
 For recording/ log/ learn /plan.../
 
 Blaze:
