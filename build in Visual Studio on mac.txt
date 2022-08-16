@@ -49,3 +49,9 @@ endif()
 
                 Starting build...
                 /usr/bin/clang++ -g /Users/chuanqiuhe/Blaze/test1/FirstExample.cpp -o /Users/chuanqiuhe/Blaze/test1/FirstExample -std=c++17
+                
+                
+                
+                
+                
+/********** on Rostam: https://gist.github.com/hcq9102/01c3c4afb01f8499b291d67a904ac217 
