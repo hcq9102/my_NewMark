@@ -41,7 +41,7 @@ endif()
                 then do ./FirstExample*
                 
                 
-                note:  use clang++ debugger.... 生成可执行文件 （用g++那个报错很多）
+                note:  use clang++ build active file debugger.... 生成可执行文件 （用g++那个报错很多）
                 
                 *Executing task: C/C++: clang++ build active file 
 
