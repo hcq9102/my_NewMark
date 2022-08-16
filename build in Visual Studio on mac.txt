@@ -1,0 +1,41 @@
+// 1.  build/installation on local mac
+
+~                           mkdir Blaze
+~                           cd Blaze
+~/Blaze>                    git clone https://bitbucket.org/blaze-lib/blaze.git
+cd blaze
+mkdir build && cd build
+~/Blaze/blaze/build>      cmake -DCMAKE_INSTALL_PREFIX=/Users/chuanqiuhe/Blaze/blaze ..
+~/Blaze/blaze/build>      make install
+
+// 2.  Test:  
+
+// 2.1 ---------- CmakeLists.txt
+
+cmake_minimum_required(VERSION 3.13)
+project(FirstExample CXX)
+
+#find_package(blaze REQUIRED)
+#add_executable(FirstExample FirstExample.cpp)
+#target_link_libraries( FirstExample INTERFACE blaze::blaze )
+
+find_package(blaze)
+
+if( blaze_FOUND )
+        add_library( FirstExample INTERFACE )
+        target_link_libraries( FirstExample INTERFACE blaze::blaze )
+endif()
+
+// 2.2------------make
+
+~/Blaze/test$ cmake -DCMAKE_DIR=/Users/chuanqiuhe/Blaze/blaze .
+~/Blaze/test$ make
+
+                /*
+                //-----------compile !!!!!!!! using following cmd , complains a lot.
+                g++ -I//Users/chuanqiuhe/Blaze/blaze FirstExample.cpp
+
+                */
+
+ // 2.3--------------compile using visual studio default compiler, generate executable file :  FirstExample*
+                then do ./FirstExample*
