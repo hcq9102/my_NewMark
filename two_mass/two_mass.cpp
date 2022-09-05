@@ -1,9 +1,12 @@
 #include <iostream>
 #include <cmath> 
 #include <blaze/Blaze.h>
+#include <blaze/math/Submatrix.h>
+#include <blaze/Forward.h>
 
 using namespace std;
 using namespace blaze;
+using blaze::unaligned;
 using blaze::DynamicVector ;
 
 // ASSEMBLY  func of element matrices
@@ -51,7 +54,7 @@ int main()
     const int nen = 2; // nodes on each element
 
     // Initialize vector of  displacement,velocity , accelaration: d0, d_v, d_a : use vector???
-    DynamicVector<double,columnVector > d{ 0, 6, 12 }; //displacement0
+    DynamicVector<double, columnVector> d{ 0, 6, 12 }; //displacement0:  Instantiation of a dynamic single precision column vector
     ZeroVector<double> v(3UL); // Initialize velocity vector
     const int nd = 1; // Number of prescribed displacement degrees-of-freedom
 
@@ -88,9 +91,10 @@ int main()
     // define APPLIED FORCE
     //fd=zeros(nnp,nt+1);
     // ZeroVector<double> fd(nnp, nt+1);
-    ZeroMatrix <double> fd(nnp, nt+1);
-    fd(2,0) = 1.0;  // fd(3,1) = 1 --> project to c++ index rule : fd(2,0) = 1
-
+    DynamicMatrix <double> fd(nnp, nt+1);
+    fd(2, 0) = 1.0;  // fd(3,1) = 1 --> project to c++ index rule : fd(2,0) = 1
+    // fd.set( 2, 0, 1 );
+     // ?????????????err1: why take this assignment as function operation.
     
 
     //////////////////////////////////////////////////////////////
@@ -109,12 +113,12 @@ int main()
 
     // 4. split matrix: Partitioning
     //  Partition M
-    DynamicMatrix<double,blaze::columnMajor> L_m, U_m, P_m, D_m;
-    lu( M, L_m, U_m, P_m);
+    DynamicMatrix<double> L_m, U_m, P_m, D_m;
+    lu( M, L_m, U_m, P_m); // decomposition M, get L_m, U_m
     D_m = diagMatrix(M, D_m);
 
     //  Partition K
-    DynamicMatrix<double,blaze::columnMajor> L_k, U_k, P_k, D_k;
+    DynamicMatrix<double> L_k, U_k, P_k, D_k;
     lu(K, L_k, U_k, P_k);
     D_k = diagMatrix(K, D_k);
 
@@ -144,15 +148,17 @@ int main()
     d_0=d;
     v_0=v;
     //take the initial displacement and the associated initial istantaneous acceleration as I.C. (not for the analytical solution
-    // a0=M\(-K*d);
-    a0 = inv(M) * (-K * d);
+    // a0=M\(-K*d);  // A\B=inv(A)*B （A左除B=A的逆乘以B）
+    DynamicVector<double,columnVector> temp = -K * d;
+    a0 = inv(M) * temp; // -K * d is a vector;
+    // a0 = inv(M) * trans((-K * d)); // matrix inversion: inv(square matrix)
     a0[0] = 0;
     a_0=a0;
 
     // 2. set initial d,v,a for the whole process
-    ZeroMatrix <double> U_d(nnp, nt+1);
-    ZeroMatrix <double> U_v(nnp, nt+1);
-    ZeroMatrix <double> U_a(nnp, nt+1);
+    DynamicMatrix <double> U_d(nnp, nt+1); // use zeroMatrix<>(), got complain
+    DynamicMatrix <double> U_v(nnp, nt+1);
+    DynamicMatrix <double> U_a(nnp, nt+1);
     /*
     U_d(:,1)=d;
     U_v(:,1)=v;
@@ -165,15 +171,15 @@ int main()
     }
 
     //Iniziatise WR time-discrete matrix (initial WRs=initial conditions)
-    ZeroMatrix <double> WR(nnp, nt+1);
-    ZeroMatrix <double> WR2(nnp, nt+1);
+    DynamicMatrix <double> WR(nnp, nt+1);
+    DynamicMatrix <double> WR2(nnp, nt+1);
 
-    ZeroMatrix <double> WRv(nnp, nt+1);
-    ZeroMatrix <double> WRa(nnp, nt+1);
+    DynamicMatrix <double> WRv(nnp, nt+1);
+    DynamicMatrix <double> WRa(nnp, nt+1);
 
     for( size_t i=0UL; i<nnp; ++i ) {
         for( size_t j=0UL; j<nt+1; ++j ) {
-            WR(i,j) = d[i];
+            WR(i,j)= d[i];
             WRv(i,j) = v[i];
             WRa(i,j) = a0[i];
         }
@@ -203,19 +209,16 @@ int main()
         v = v_0;
         a = a0;
         // SOLUTION OF THE MATRIX SYSTEM: vector force
-        ZeroMatrix <double> fd1(nnp, nt+1);
-
-        DynamicMatrix<double> temp(nnp, 1);
-        // how to select one row/ column data in matrix?????????????
-        for( size_t ii=0UL; ii<nnp; ++ii ) {
-            for( size_t jj=0UL; jj<nt+1; ++jj ) {
-                fd1(ii,jj) = K_minus_j * WR(ii, jj); // per ogni colonna di WR (spostamento a un t moltiplico per Kminus che � come moltiplicare per l'1/6 di prima (coeff riduttivo/moltiplicativo))
-            }
+        DynamicMatrix <double> fd1(nnp, nt+1);
+        //DynamicMatrix<double> x(nnp, 1);
+        for( size_t jj=0UL; jj<nt+1; ++jj ) {
+            // fd1(ii,jj) = K_minus_j * WR(ii, jj);  per ogni colonna di WR (spostamento a un t moltiplico per Kminus che � come moltiplicare per l'1/6 di prima (coeff riduttivo/moltiplicativo))
+            submatrix(fd1, 0UL, jj, 3UL, 1UL) = K_minus_j * submatrix(WR, 0UL, jj, 3UL, 1UL);
         }
 
         // for( size_t jj=0UL; jj<nt+1; ++jj ) {
         //     for( size_t ii=0UL; ii<nnp; ++ii ) {
-        //         temp(ii, jj) = WR(ii, jj);
+        //         x(ii, jj) = WR(ii, jj);
         //     }
         // }
         // fd1(ii,jj) = K_minus_j * WR(ii, jj); // per ogni colonna di WR (spostamento a un t moltiplico per Kminus che � come moltiplicare per l'1/6 di prima (coeff riduttivo/moltiplicativo))
@@ -223,11 +226,11 @@ int main()
         //SOLUTION
         DynamicMatrix<double> A;
         A = M + beta_b *(dt*dt)*K_plus_j;
-        DynamicMatrix<double,blaze::columnMajor> L, U, P;
+        DynamicMatrix<double> L, U, P;
         lu(A, L, U, P);
 
-        DynamicVector<double,columnVector > d1p(nnp);
-        DynamicVector<double,columnVector > v1p(nnp);
+        DynamicVector<double, columnVector> d1p(nnp, 1UL);
+        DynamicVector<double> v1p(nnp, 1UL);
         // PREDICTOR PHASE // ?????? d1p, v1p didnt change as n increment, so move it outside of while
         for(size_t i=0UL; i<nnp; ++i){
             d1p[i] = d[i] + dt*v[i] + ((dt*dt)/2) * (1-2*beta_b)*a[i];
@@ -237,10 +240,14 @@ int main()
         int n = 0;
         while(n<nt+1){   
             //SOLUTION : disp('b')
-            DynamicVector<double,columnVector > b(nnp);
-            for(size_t i=0UL; i<nnp; ++i){
-                b[i] = fd1(i, n+1) - (K_plus_j * d1p)(i,0); // K_plus_j * d1p : matrix * vector
-            }
+            // DynamicMatrix <double> fd1(nnp, nt+1);
+            // DynamicMatrix<double> M_plus_j
+            DynamicVector<double,columnVector> b(nnp);
+            b = column(fd1, n) - K_plus_j * d1p;
+
+            // for(size_t i=0UL; i<nnp; ++i){
+            //     b[i] = fd1(i, n+1) - (K_plus_j * d1p)[i]; // K_plus_j * d1p : matrix * vector
+            // }
             // LU_decomposition
             DynamicVector<double,columnVector > z(nnp);
             DynamicVector<double,columnVector > a1(nnp);
@@ -287,14 +294,13 @@ int main()
             WR_STOR(STOR_line,j) = WR(2,j);
         }
 
-        ZeroMatrix <double> cc(1UL, nt+1);
+        DynamicMatrix <double> cc(1UL, nt+1);
         for( size_t j=0UL; j<nt+1; ++j ) {
             cc(0,j) = WR_STOR(STOR_line,j) - WR_STOR(STOR_line-1,j);
         }
 
         // cc=WR_STOR(STOR_line,:)-WR_STOR(STOR_line-1,:);
-        ZeroMatrix <double> dd(1, nt+1);
-        ZeroMatrix <double> e(1, nt+1);
+        DynamicMatrix <double> dd(1, nt+1);
         dd = abs(cc); 
         e = max(dd);
 
@@ -303,13 +309,12 @@ int main()
             WR_STOR2(STOR_line,j) = WR(1,j);
         }
 
-        ZeroMatrix <double> cc2(1, nt+1);
+        DynamicMatrix <double> cc2(1, nt+1);
         for( size_t j=0UL; j<nt+1; ++j ) {
             cc2(0,j) = WR_STOR2(STOR_line,j) - WR_STOR2(STOR_line-1,j);
         }
         // cc=WR_STOR(STOR_line,:)-WR_STOR(STOR_line-1,:);
         ZeroMatrix <double> dd2(1, nt+1);
-        ZeroMatrix <double> e2(1, nt+1);
         dd2 = abs(cc2);
         e2 = max(dd2);
     }
