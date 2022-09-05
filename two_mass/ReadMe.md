@@ -1,4 +1,4 @@
-# Visual studio code: There is no error report on code anymore. But the compile message shows as follow:
+# Local : Visual studio code: There is no error report on code anymore. But the compile message shows as follow:
 
         Starting build...
       /usr/bin/clang++ -g /Users/chuanqiuhe/Blaze/two_mass_sys/two_mass.cpp -o /Users/chuanqiuhe/Blaze/two_mass_sys/two_mass -std=c++17
