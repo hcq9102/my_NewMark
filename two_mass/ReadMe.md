@@ -1,4 +1,6 @@
-# Local : Visual studio code: There is no error report on code anymore. But the compile message shows as follow:
+## There is no error report on code anymore. But the compile message shows as follow:
+
+### Local : Visual studio code: 
 
         Starting build...
       /usr/bin/clang++ -g /Users/chuanqiuhe/Blaze/two_mass_sys/two_mass.cpp -o /Users/chuanqiuhe/Blaze/two_mass_sys/two_mass -std=c++17
@@ -18,7 +20,7 @@
        
        
 
-# The similar rostam message shows:
+### The similar rostam message shows:
 
           chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ g++ -I/home/chuanqiu/Blaze/blaze two_mass.cpp
       /tmp/cc6NPGrP.o: In function `blaze::getrf(int, int, double*, int, int*, int*)':
