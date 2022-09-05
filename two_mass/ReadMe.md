@@ -20,7 +20,7 @@
        
        
 
-### The similar rostam message shows:
+### Rostam: The similar message shows:
 
           chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ g++ -I/home/chuanqiu/Blaze/blaze two_mass.cpp
       /tmp/cc6NPGrP.o: In function `blaze::getrf(int, int, double*, int, int*, int*)':
