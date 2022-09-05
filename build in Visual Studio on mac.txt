@@ -55,3 +55,10 @@ endif()
                 
                 
 /********** on Rostam: https://gist.github.com/hcq9102/01c3c4afb01f8499b291d67a904ac217 
+
+        1. chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ cmake -DCMAKE_DIR=/home/chuanqiu/Blaze/blaze .
+        
+        2. chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ make
+        
+        3. chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ g++ -I/home/chuanqiu/Blaze/blaze two_mass.cpp
+
