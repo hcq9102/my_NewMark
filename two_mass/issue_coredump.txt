@@ -1,6 +1,9 @@
 9.7
 code Compiled: 
-run ./a.out
+$ g++ -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp
+run $ ./a.out
+
+
 # issue: 
 //terminate called after throwing an instance of 'std::invalid_argument'
   what():  Matrix sizes do not match
