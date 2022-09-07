@@ -1,0 +1,8 @@
+9.7
+code Compiled: 
+run ./a.out
+# issue: 
+//terminate called after throwing an instance of 'std::invalid_argument'
+  what():  Matrix sizes do not match
+Aborted (core dumped)
+
