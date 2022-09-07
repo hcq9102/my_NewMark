@@ -1,4 +1,4 @@
-## There is no error report on code anymore. But the compile message shows as follow:
+## 9.4 There is no error report on code anymore. But the compile message shows as follow:
 
 ### Local : Visual studio code: 
 
@@ -30,6 +30,11 @@
       collect2: error: ld returned 1 exit status
       
       
-### resolved : add another lib link: -llapack
+### 9.6 resolved: 
+                1. On rostam(lapack lib already exist), just add another lib link: -llapack
 
-        g++ -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp
+                g++ -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp
+        
+                2. local,  On Mac, need homebrew for that: https://formulae.brew.sh/formula/lapack
+                
+                follow the second link, After that, install lapack
