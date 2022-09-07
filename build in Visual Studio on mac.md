@@ -61,4 +61,8 @@ endif()
         2. chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ make
         
         3. chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ g++ -I/home/chuanqiu/Blaze/blaze two_mass.cpp
+        
+        ### in order to compile the code: add extra lib link: -llapack
+        
+                g++ -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp
 
