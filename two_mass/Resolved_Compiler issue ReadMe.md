@@ -1,5 +1,6 @@
 ## 9.4 There is no error report on code anymore. But the compile message shows as follow:
 
+
 ### Local : Visual studio code: 
 
         Starting build...
