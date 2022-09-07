@@ -28,3 +28,8 @@
       /tmp/cc6NPGrP.o: In function `blaze::gesv(int, int, double*, int, int*, double*, int, int*)':
       two_mass.cpp:(.text._ZN5blaze4gesvEiiPdiPiS0_iS1_[_ZN5blaze4gesvEiiPdiPiS0_iS1_]+0x48): undefined reference to `dgesv_'
       collect2: error: ld returned 1 exit status
+      
+      
+### resolved : add another lib link: -llapack
+
+        g++ -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp
