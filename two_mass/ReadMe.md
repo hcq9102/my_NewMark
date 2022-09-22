@@ -31,7 +31,7 @@
       collect2: error: ld returned 1 exit status
       
       
-### 9.6 resolved: 
+### 9.6 compile issue solved: 
                 1. On rostam(lapack lib already exist), just add another lib link: -llapack
 
                 g++ -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp
