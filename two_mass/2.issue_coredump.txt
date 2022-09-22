@@ -9,3 +9,15 @@ run $ ./a.out
   what():  Matrix sizes do not match
 Aborted (core dumped)
 
+
+
+920
+Use GDB to debug:
+
+### Get GDB exe. file (twomassGdb)
+           g++ -g -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp -o twomassGdb
+           
+           
+// but it says the same as before,   I didnt get specific information.
+
+
