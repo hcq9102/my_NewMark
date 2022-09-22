@@ -64,5 +64,9 @@ endif()
         
         ### in order to compile the code: add extra lib link: -llapack
         
-                g++ -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp
+                g++ -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp  // get executable file
+                
+                
+        ### Get GDB exe. file (twomassGdb)
+               g++ -g -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp -o twomassGdb
 
