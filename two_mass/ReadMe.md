@@ -39,3 +39,19 @@
                 2. local,  On Mac, need homebrew for that: https://formulae.brew.sh/formula/lapack
                 
                 follow the second link, After that, install lapack
+                
+# 922 core_dump issue solved:
+
+        The definition of D_m , D_k using DynamicMatrix<double>D_m,D_k  , it wont allocate memory for D_m, D_k automatically.  so when calculate it,
+        it becomes empty.
+        so use blaze::ZeroMatrix<double> D_m(3UL, 3UL);
+               blaze::ZeroMatrix<double> D_k(3UL, 3UL);  will be fine.
+               
+               
+               
+               
+               
+               
+
+                
+                
