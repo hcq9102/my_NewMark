@@ -98,7 +98,6 @@ int main()
     DynamicMatrix <double> fd(nnp, nt+1);
     fd(2, 0) = 1.0;  // fd(3,1) = 1 --> project to c++ index rule : fd(2,0) = 1
     // fd.set( 2, 0, 1 );
-     // ?????????????err1: why take this assignment as function operation.
     
 
     //////////////////////////////////////////////////////////////
@@ -119,10 +118,8 @@ int main()
     //  Partition M
     DynamicMatrix<double> L_m, U_m, P_m;
     DynamicMatrix<double> D_m(3UL, 3UL);
-    //ZeroMatrix<double> D_m(3UL, 3UL);
     lu( M, U_m, L_m,  P_m); // decomposition M, get L_m, U_m
     
-    // D_m = diagMatrix(M, D_m); // invalid assignment?
     D_m = diagMatrix(M);  
 
     // std::cout << "L_m:"<< L_m <<std::endl;
@@ -224,18 +221,16 @@ int main()
             WR_STOR2(0,j) = WR2(2,j);
     }   
 
-    // let's initialize e (error) and the counting i
+    // initialize e (error) and the counting i
     size_t e=1;
     size_t e2=1;
     size_t i = 0;
     DynamicVector<double,columnVector > a(nnp);
-     // why again initialize???
-        //std::cout << "e0  " << e << std::endl;
-        //std::cout << "e2_0  " << e2 << std::endl;
+        
+    while(e>pow(10,-14) || e2>pow(10,-14)){
         d = d_0;
         v = v_0;
         a = a0;
-    while(e>pow(10,-14) || e2>pow(10,-14)){
        
         // SOLUTION OF THE MATRIX SYSTEM: vector force
         DynamicMatrix <double> fd1(nnp, nt+1);
@@ -273,7 +268,6 @@ int main()
             // DynamicMatrix<double> M_plus_j
             DynamicVector<double,columnVector> b(nnp);
             b = column(fd1, n+1) - K_plus_j * d1p;
-            //std::cout << "b " << b << std::endl;
             // LU_decomposition
             DynamicVector<double,columnVector > z(nnp);
             DynamicVector<double,columnVector > a1(nnp);
