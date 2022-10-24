@@ -15,7 +15,8 @@ WR_STOR(STOR_line,j) = WR(2,j);
 
 
 2.  using following conditions: go 35 iterations
-size_t e=0;
+
+    size_t e=0;
     size_t e2=0;
     size_t i = 0;
     
