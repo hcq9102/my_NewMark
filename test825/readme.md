@@ -23,3 +23,9 @@ WR_STOR(STOR_line,j) = WR(2,j);
     while(e<pow(10.0,-14) || e2<pow(10.0,-14)){
 
 
+
+
+、、、、、、、、、、、、、、、、、、、、、、、、、、、、
+chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ g++ -I/home/chuanqiu/Blaze/blaze -llapack two_mass.cpp -o res
+chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/test825$ ./res
+        WR_plot_res.csv
