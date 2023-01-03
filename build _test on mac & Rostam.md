@@ -33,7 +33,7 @@ endif()
 
                 /*
                 //-----------compile !!!!!!!! using following cmd , complains a lot.
-                g++ -I//Users/chuanqiuhe/Blaze/blaze FirstExample.cpp
+                g++ -I/Users/chuanqiuhe/Blaze/blaze FirstExample.cpp
 
                 */
 
