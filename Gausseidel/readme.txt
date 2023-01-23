@@ -11,3 +11,5 @@
                
  // exit(1) 用于停止程序运行至此，用于debug
  // matrix * vector = vector
+ // Jacobi_GS__WR_dt.ipynb
+      里面只是修改了输入的文件名，与Jacobi_WR_dt.ipynb 几乎一样。
