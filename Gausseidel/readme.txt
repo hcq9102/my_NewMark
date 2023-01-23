@@ -1,0 +1,13 @@
+/********** on Rostam: Gausseidel method
+               
+               chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/gaussseidel$ cmake -DCMAKE_DIR=/home/chuanqiu/Blaze/blaze .
+               chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/gaussseidel$ make
+               chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/gaussseidel$ g++ -I/home/chuanqiu/Blaze/blaze -llapack gausseidel.cpp -o gaus
+               
+               ### Get GDB exe. file (twomassGdb)
+               g++ -g -I/home/chuanqiu/Blaze/blaze -llapack gausseidel.cpp -o Gdb
+               
+               
+               
+ // exit(1) 用于停止程序运行至此，用于debug
+ // matrix * vector = vector
