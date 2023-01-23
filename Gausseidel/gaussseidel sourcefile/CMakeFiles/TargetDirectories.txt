@@ -1,0 +1,2 @@
+/work/chuanqiu/Dynamic_project/gaussseidel/CMakeFiles/edit_cache.dir
+/work/chuanqiu/Dynamic_project/gaussseidel/CMakeFiles/rebuild_cache.dir
