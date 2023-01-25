@@ -23,3 +23,12 @@ I am done with implementing the one dimensional jacobi and gauss-seidel methods,
 //
 after that, to implement two-dimensional plate with a single material.
 then we can do parallelization afterwards.
+
+/////////////
+
+//////////////////
+6.30
+17:00
+
+if we do in parallel, we can get exactly same as newmark. then can have look at if there is error or not.
+
