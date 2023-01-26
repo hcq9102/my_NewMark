@@ -32,3 +32,6 @@ then we can do parallelization afterwards.
 
 if we do in parallel, we can get exactly same as newmark. then can have look at if there is error or not.
 
+//predictor _corrector
+
+g++ -g -I/home/chuanqiu/Blaze/blaze -llapack predictor_corrector.cpp -o pc
