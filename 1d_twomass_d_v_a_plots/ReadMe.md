@@ -1,3 +1,4 @@
+1D_twomass_undamped 
 
 Newmark:
         displacement res = U_dN
