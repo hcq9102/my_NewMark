@@ -21,6 +21,6 @@ Newmark data from U_dN,U_vN,U_aN from predictor_corrector:
         
         My question: how can I get the velocity, acceleration?
                      
-                     differentiate d on t---> v
-                     differentiate v on t---> a
+               DO      differentiate d on t---> v
+                       differentiate v on t---> a  ?
                      
