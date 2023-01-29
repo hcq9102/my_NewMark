@@ -32,7 +32,7 @@ NOTE:
         compare: Gauss seidel / Jacobi / Newmark / exact analytical solution
         
  
-## Final Note: 
+## Final result plots Note: 
         final figures: 
         https://github.com/hcq9102/my_NewMark/tree/main/1d_twomass_d_v_a_plots/final%20plots%20of%20figure4
       
