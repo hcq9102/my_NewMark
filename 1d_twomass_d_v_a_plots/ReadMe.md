@@ -31,6 +31,7 @@ NOTE:
         d,v,a plots source file is : 1D_twomass_undamp_dva_plot.ipynb  (saved on google drive as well)
         compare: Gauss seidel / Jacobi / Newmark / exact analytical solution
  
-Note: final figures: 
+Final Note: 
+        final figures: 
         https://github.com/hcq9102/my_NewMark/tree/main/1d_twomass_d_v_a_plots/final%20plots%20of%20figure4
       
