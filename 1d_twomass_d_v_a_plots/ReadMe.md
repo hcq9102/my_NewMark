@@ -19,8 +19,14 @@ Newmark data from U_dN,U_vN,U_aN from predictor_corrector:
         
         d1(t) will give you the displacement at time t for the first spring ?
         
-        My question: how can I get the velocity, acceleration?
+        My question: how can I get the velocity, acceleration.
                      
                DO      differentiate d on t---> v
-                       differentiate v on t---> a  ?
+                       differentiate v on t---> a  
                      
+
+NOTE:
+
+d,v,a plots source file is : 1D_twomass_undamp_dva_plot.ipynb
+compare: Gauss seidel / Jacobi / Newmark / exact analytical solution
+ 
