@@ -27,6 +27,6 @@ Newmark data from U_dN,U_vN,U_aN from predictor_corrector:
 
 NOTE:
 
-        d,v,a plots source file is : 1D_twomass_undamp_dva_plot.ipynb
+        d,v,a plots source file is : 1D_twomass_undamp_dva_plot.ipynb  (saved on google drive as well)
         compare: Gauss seidel / Jacobi / Newmark / exact analytical solution
  
