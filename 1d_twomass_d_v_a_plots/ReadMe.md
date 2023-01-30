@@ -1,7 +1,7 @@
 
 1D_twomass_undamped folder:
 
-Newmark data from U_dN,U_vN,U_aN from predictor_corrector:
+1.Newmark data from U_dN,U_vN,U_aN from predictor_corrector:
 
         displacement res = U_dN
         
@@ -9,7 +9,7 @@ Newmark data from U_dN,U_vN,U_aN from predictor_corrector:
         
         acceleration = U_aN
         
- Exact analytical solution:
+2. Exact analytical solution:
  
         Appendix A
         The exact analytical solution to (9) can be expressed as:
