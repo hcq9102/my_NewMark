@@ -4,9 +4,12 @@
 #include <cmath>
 #include <blaze/Blaze.h>
 #include <blaze/math/Submatrix.h>
+#include <blaze/math/StaticMatrix.h>
+#include <blaze/math/DynamicMatrix.h>
 #include <blaze/Forward.h>
 #include <blaze/math/Columns.h>
 #include <blaze/math/Rows.h>
+#include <blaze/Math.h>
 
 //-----------------------------------------
 // INPUT DATA for parameters
@@ -23,7 +26,7 @@ double poisson=0.3;        //Poisson's ratio
 const int nglx=2, ngly=2;     //2x2 Gauss-Legendre quadrature (sampling points in the two directions x,y)
 const int nglxy=nglx*ngly;    //number of sampling points per element
 
-const int32_t iopt=1;             //plane stress analysis
+const int iopt=1;             //plane stress analysis
 //const size_t iopt=2;             //plane strain analysis
 
 const size_t lumped=1;           //lumped=0 (consistent element mass matrix), =1 (lumped element mass matrix)集总元素质量矩阵
@@ -59,13 +62,13 @@ blaze::DynamicMatrix<double,blaze::columnMajor> gcoord{ {0.0, 0.0},{0.5,0.0},{1.
  (basically in each row there are the element nodes in a counterclock
  order - 1st row, 1st element - 2nd row, 2nd element
 */
-int node[44][4]  ={ { 1,2,11,10 }, { 1,2,11,10 },{ 3,4,13,12 },{ 4,5,14,13 }, { 5,6,15,14 }, { 6,7,16,15 }, { 7,8,17,16 },{ 8,9,18,17 }, 
+
+blaze::DynamicMatrix<double> nodes{ { 1,2,11,10 }, { 1,2,11,10 },{ 3,4,13,12 },{ 4,5,14,13 }, { 5,6,15,14 }, { 6,7,16,15 }, { 7,8,17,16 },{ 8,9,18,17 }, 
                         { 10,11,20,19 }, { 11,12,21,20 },{ 12,13,22,21 }, { 13,14,23,22 }, { 14,15,24,23 }, { 15,16,25,24 },{ 16,17,26,25 }, { 17,18,27,26 },
                         { 19,20,29,28 }, { 20,21,30,29 },{ 21,22,31,30 }, { 22,23,32,31 }, { 23,24,33,32 }, { 24,25,34,33 },{ 25,26,35,34 }, { 26,27,36,35 }, 
                         { 28,29,38,37 }, { 29,30,39,38 },{ 30,31,40,39 }, { 31,32,41,40 }, { 32,33,42,41 }, { 33,34,43,42 },{ 34,35,44,43 }, { 35,36,45,44 },
                         { 37,38,47,46 }, { 38,39,48,47 },{ 39,40,49,48 }, { 40,41,50,49 }, { 41,42,51,50 }, { 42,43,52,51 },{ 43,44,53,52 }, { 44,45,54,53 }
                     };
-blaze::DynamicMatrix<double> nodes( node );
 
 /*-----------------------------------------
  initialization of matrices and vectors
@@ -93,7 +96,7 @@ blaze::DynamicVector<double> nd(nnel);
 blaze::DynamicVector<double> xcoord(nnel);
 blaze::DynamicVector<double> ycoord(nnel);
 blaze::DynamicVector<double> indexk(edof,1);           //index vector
-blaze::DynamicMatrix <double> kel(edof,edof);      //initialization of element (stiffness) matrix
+//blaze::DynamicMatrix <double> kel(edof,edof);      //initialization of element (stiffness) matrix
 // m
 blaze::DynamicVector<double> ndm(nnel);
 blaze::DynamicVector<double> indexm(edof,1); 
@@ -120,8 +123,6 @@ blaze::DynamicMatrix <double> unitmatrix{
 
 
 blaze::DynamicMatrix <double> jacobi2(2,2);
-blaze::DynamicVector<double> dhdx;
-blaze::DynamicVector<double> dhdy;
 
 //-----------------------------------------
 // preprocess 
@@ -142,9 +143,8 @@ int ngl = std::max(nglx,ngly);
 blaze::DynamicMatrix <double> point2(ngl,2); 
 blaze::DynamicMatrix <double> weight2(ngl,2);
 
-blaze::DynamicVector<double> shape( 4UL );
-blaze::DynamicVector<double> dhdr( 4UL );
-blaze::DynamicVector<double> dhds( 4UL );
+blaze::DynamicVector<double, blaze::rowVector> shape( 4UL );
+blaze::DynamicVector<double> dhdx(nnel), dhdy(nnel), dhdr(nnel), dhds(nnel);
 
 
 
@@ -172,8 +172,8 @@ blaze::DynamicVector<double> to_use{3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,
 
 
 // diagnoal matrice
-blaze::DynamicMatrix<double> diagMatrix(blaze::DynamicMatrix<double> Y){
-    blaze::DynamicMatrix<double> D;
+blaze::DynamicMatrix<double> diagMatrix(blaze::DynamicMatrix<double> &Y){
+    blaze::DynamicMatrix<double> D(Y.rows(), Y.columns());
     for(size_t i = 0UL; i <Y.rows(); i++){
         for(size_t j = 0UL; j< Y.columns(); j++){
             if(i == j){
@@ -201,10 +201,10 @@ blaze::DynamicMatrix <double> feasmbl1_m(blaze::DynamicMatrix <double> &X,blaze:
 }
 
 
-void federiv2(int n,blaze::DynamicVector<double> &r,blaze::DynamicVector<double> &s,blaze::DynamicMatrix <double> &inv){
+void federiv2(int n,blaze::DynamicVector<double> &r,blaze::DynamicVector<double> &s,blaze::DynamicMatrix <double> &z){
     for(int i  = 0; i< n; i++ ){
-        dhdx[i] = inv(0,0)*r[i] + inv(0,1)*s[i];
-        dhdy[i] = inv(1,0)*r[i] + inv(1,1)*s[i];
+        dhdx[i] = z(0,0) * r[i] + z(0,1) * s[i];
+        dhdy[i] = z(1,0) * r[i] + z(1,1) * s[i];
     }
 } 
 
@@ -219,31 +219,35 @@ void fekine2D(int n,blaze::DynamicVector<double> &dx,blaze::DynamicVector<double
     }
 }
 
-void feeldofk(blaze::DynamicVector<double> &nd_m, int x, int y){
+blaze::DynamicVector<double> feeldofk(blaze::DynamicVector<double> &nd_m, int x, int y){
     int edof = x * y;
+    blaze::DynamicVector<double> resk(edof);
     int k = 0;
 
     for(int i = 0; i<x;i++){
         int start = (nd_m[i] -1) * y;
         for(int j =0; j<y;j++){
-            indexk[k] = start + j;
+            resk[k] = start + j;
             k++;
         }
     }
+    return resk;
     
 }
 
-void feeldofm(blaze::DynamicVector<double> &nd_m, int x, int y){
+blaze::DynamicVector<double> feeldofm(blaze::DynamicVector<double> &nd_m, int x, int y){
     int edof = x * y;
+    blaze::DynamicVector<double> resm(edof);
     int k = 0;
 
     for(int i = 0; i<x;i++){
         int start = (nd_m[i] -1) * y;
         for(int j =0; j<y;j++){
-            indexm[k] = start + j;
+            resm[k] = start + j;
             k++;
         }
     }
+    return resm;
     
 }
 
@@ -286,7 +290,8 @@ void feglqd2(int x, int y){
     }
 }
 
-void feisoq4(double x, double y){
+template<typename T>
+void feisoq4(T x, T y){
     
     // shape functions
     shape[0] = 0.25*(1-x)*(1-y); //N(1)
@@ -295,7 +300,7 @@ void feisoq4(double x, double y){
     shape[3] =0.25*(1-x)*(1+y);  //N(4)
     
     // derivatives 
-    dhdr[0] = -0.25*(1-y);
+    dhdr[0] = -(1-y)/4;
     dhdr[1] = 0.25*(1-y);
     dhdr[2] = 0.25*(1+y);
     dhdr[3] = -0.25*(1+y);
@@ -307,22 +312,24 @@ void feisoq4(double x, double y){
 }
 
 
-void fejacobi2( int n, blaze::DynamicVector<double> &r,blaze::DynamicVector<double> &s, blaze::DynamicVector<double> &xcrd,blaze::DynamicVector<double> &ycrd ){
+blaze::DynamicMatrix <double> fejacobi2( int n, blaze::DynamicVector<double> &r,blaze::DynamicVector<double> &s, blaze::DynamicVector<double> &xcrd,blaze::DynamicVector<double> &ycrd ){
+    blaze::DynamicMatrix <double> res{{0,0},{0,0}};
     for(int i = 0; i< n; i++){
-        jacobi2(1,1)=jacobi2(1,1)+r[i]*xcrd[i];
-        jacobi2(1,2)=jacobi2(1,2)+r[i]*ycrd[i];
-        jacobi2(2,1)=jacobi2(2,1)+s[i]*xcrd[i];
-        jacobi2(2,2)=jacobi2(2,2)+s[i]*ycrd[i];
+        res(0,0)=res(0,0)+r[i]*xcrd[i];
+        res(0,1)=res(0,1)+r[i]*ycrd[i];
+        res(1,0)=res(1,0)+s[i]*xcrd[i];
+        res(1,1)=res(1,1)+s[i]*ycrd[i];
     }
+    return res;
 }
 
 
 void fematiso(int x, int y, double z){ 
     if(x == 1){
-        blaze::DynamicMatrix <double> temp1 = {{1,z,0},{z,1,0},{0,0,(1-z/2)}};
+        blaze::StaticMatrix<double,3UL, 3UL> temp1= {{1,z,0},{z,1,0},{0,0,(1-z)/2}};
         matmtx = (y / (1-z*z))* temp1;
     }else if(x == 2){
-        blaze::DynamicMatrix <double> temp2 = {{1-z,z,0},{z,1-z,0},{0,0,(1-2*z/2)}};
+        blaze::StaticMatrix<double,3UL, 3UL> temp2{{1-z,z,0},{z,1-z,0},{0,0,(1-2*z)/2}};
         matmtx = (y / ((1-2*z)*(1+z)))* temp2;
     }
 
