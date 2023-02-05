@@ -9,5 +9,7 @@ chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/2Dsystem/2Dj_g_n$ g++ -g -I/home
 2.4 compiled. but got issue:
 
    kel incorrect even if all parameters(contribute to kel) are correct????????????
+   reference link for kel: https://github.com/hcq9102/my_NewMark/blob/main/2Dsystem/jacobi_compiled/2Djacobi.cpp#L92
+   
 
 
