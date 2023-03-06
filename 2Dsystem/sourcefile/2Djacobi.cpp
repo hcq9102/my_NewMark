@@ -1,7 +1,3 @@
-/*
-print all values you want use ./exec >>log.txt
-here : /huanqiu@rostam1:/work/chuanqiu/Dynamic_project/2Dsystem/2Dj_g_n$ ./jacogdb >>log.txt
-*/
 
 #include <iostream>
 #include <cmath>
