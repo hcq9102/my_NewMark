@@ -10,7 +10,7 @@
 #include <blaze/math/Elements.h>
 
 #include "preprocess.hpp"
-//#include "assembly.hpp"
+#include "assembly.hpp"
 
 #include <fstream>
 #include <string>
@@ -26,116 +26,19 @@ using blaze::DynamicVector;
 int main()
 {
     //compute ELEMENT MATRICES and vectors and ASSEMBLY
-
     /*
     -----------------------------------------
-     STIFFNESS MATRIX
-    -------------------------------------------
+     STIFFNESS MATRIX  && MASS MATRIX
+    -----------------------------------------
     */
-    feglqd2(nglx,ngly);                       // [point2,weight2]=feglqd2(nglx,ngly);  
-    fematiso(iopt,emodule,poisson);           //constitutive matrix matmtx=fematiso(iopt,emodule,poisson);
-
-    double x = 0;
-    double y = 0;
-    double wtx =0.0;
-    double wty =0.0;
-    double detjacob=0.0;
-    //int count = 0;
-
-    for (int iel = 0; iel < nel; ++iel) { // loop over the total number of elements
-        DynamicMatrix <double> kel = kel0;      //initialization of element (stiffness) matrix as all zeros
-        for (int i = 0; i < nnel; ++i) {
-            nd[i] = nodes(iel, i); // extract nodes for the (iel)-th element
-            xcoord[i] = gcoord(nd[i]-1, 0); // extract x value of the node
-            ycoord[i] = gcoord(nd[i]-1, 1); // extract y value of the node
-        } 
-         /*
-         -----------------------
-            numerical integration
-          -----------------------
-         */   
-        // sampling point(it's in r-axis)/weight(it's ins-axis)  in x-axis; y-axis
-        for (int intx = 0; intx < nglx; intx++) {
-            x = point2(intx,0);
-            wtx = weight2(intx,0);
-
-            for (int inty = 0; inty < ngly; inty++) {
-                y = point2(inty,1);
-                wty = weight2(intx,1);
-
-
-                // compute shape functions and derivatives at sampling points
-                //blaze::DynamicVector<double> dhdx(nnel), dhdy(nnel), dhdr(nnel), dhds(nnel);
-                feisoq4(x,y);
-                // compute Jacobian
-
-                jacobi2 = fejacobi2(nnel,dhdr,dhds,xcoord,ycoord);  
-
-                // determinant of Jacobian
-                detjacob= det(jacobi2);
-                //std::cout << "detjacob " <<detjacob << std::endl;
-                //inverse of Jacobian matrix
-                blaze::DynamicMatrix<double> invjacob = inv(jacobi2);
-
-                //derivatives w.r.t. physical coordinate
-                federiv2(nnel,dhdr,dhds,invjacob);
-
-                //compute kinematic matrix
-                fekine2D(nnel,dhdx,dhdy);
-
-                /*
-                -----------------------------------
-                compute ELEMENT (stiffness) matrix
-                -----------------------------------
-                */
-                kel = kel + (trans(kinmtx2) * matmtx) * kinmtx2 * (wtx*wty *detjacob);
-            }
-        }
+    geGlobal_k(nglx, ngly, iopt, emodule, poisson, nel, nnel, ndof);
+    geGlobal_m(lumped, nel, nnel, ndof);
      
-        //extract system dofs for the element
-        indexk = feeldofk(nd,nnel,ndof);                     
-        //assemble element matrices in the global one
-        K=feasmbl1_m(K,kel,indexk); //K=feasmbl1(K,kel,index);  
-    }
-
-    /*
-    -----------------------------------------
-     MASS MATRIX
-    -------------------------------------------
-    */
-    /*
-    -----------------------------------
-    ELEMENT (mass) matrix
-    -----------------------------------
-    */
-    DynamicMatrix <double> mel = mel0;
-
-    if (lumped == 0) {
-        mel = ((rho * elArea) / 36) * consistent_mel;
-    } else if (lumped == 1) {
-        mel = ((rho * elArea) / 4) * blaze::IdentityMatrix<double>(8);
-    }
-   //loop for/over the total number of elements (considering one element at the time)
-   for (int ielm = 0; ielm < nel; ++ielm) {
-    
-        for (int im = 0; im < nnel; ++im){ //extract nodes for the (iel)-th element
-            ndm[im] = nodes(ielm,im);
-        }
- 
-    indexm = feeldofm(ndm,nnel,ndof);
-    M=feasmbl1_m(M,mel,indexm); //assemble element matrices in the global one  
-   }
-
-
-   
    //Initial acceleration
     blaze::DynamicVector<double> a0(sdof);
     
     DynamicVector<double,columnVector> temp = -K * d;
     a = inv(M) * temp;
-    
-    //a = tem * blaze::DynamicVector<double>(-K*d);   // compute a using matrix inversion and matrix-vector multiplication
-    //std::cout << "a \n" << a << std::endl; ????? 小精度的都不太对
     
     int iii = 1;
     for (int jj = 0; jj < gcoord.rows();++jj) {
@@ -146,7 +49,7 @@ int main()
         iii += 2;
     }
  
-    // -------------------- NEWMARK PREDICTOR-CORRECTOR SOLUTION -----------------------------
+    // -------------------- finer NEWMARK PREDICTOR-CORRECTOR SOLUTION (reference solution)-----------------------------
 
     // set initial d,v,a for the whole process
     DynamicMatrix <double> U_dN(sdof, ntN+1, 0.0); // matrix where displacement solutions at each time step are stored
@@ -264,23 +167,11 @@ int main()
         // CORRECTOR PHASE
         d1N = d1N + beta_b * (dtN*dtN)*a1N;
         v1N = v1N+(1-gamma_b)*dtN*a1N;
-           
-            /**
-             * SUBSTITUTING
-                U_d(:,n+1)=d1;
-                U_v(:,n+1)=v1;
-                U_a(:,n+1)=a1;
-             */
-        for( size_t i=0UL; i<sdof; i++ ) {     
-            U_dN(i,n+1) = d1N[i];
-            U_vN(i,n+1) = v1N[i];
-            U_aN(i,n+1) = a1N[i];
-
-        }
         
-        // column(U_d, n+1) = d1;
-        // column(U_v, n+1) = v1; 
-        // column(U_a, n+1) = a1;
+        
+        column(U_d, n+1) = d1;
+        column(U_v, n+1) = v1; 
+        column(U_a, n+1) = a1;
 
         d = d1N;
         v = v1N;
@@ -288,7 +179,7 @@ int main()
         
         
         n++;  
-        std::cout<<n<<std::endl;   
+           
     } 
    
     return 0;  
