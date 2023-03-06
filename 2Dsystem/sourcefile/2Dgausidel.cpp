@@ -336,14 +336,6 @@ int main()
             WR_STOR_1=WR;
         }
     }
-    // for plotting
-    std::ofstream fout0("2D_Gaus_WR_plot_res_106.csv");
-    fout0 << "dt,WR\n";
-    for (std::size_t step = 0; step <= nt; step++){
-        fout0 << dt*step<< ","
-             <<WR(106,step) << "\n";
-    }
-    fout0.close();
 
     // for plotting
     std::ofstream fout1("2D_Gaus_WR_plot_res_52.csv");
