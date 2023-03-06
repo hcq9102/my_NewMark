@@ -394,19 +394,6 @@ void print_X_value(blaze::DynamicMatrix <double> &X){
 
 }
 
-void print_vector_value(blaze::DynamicVector<double> &X){
 
-        // 打开输出文件流
-        std::ofstream outfile("v1p.csv");
-
-        // 将向量的每个元素输出到文件中，并在每个元素后面添加一个换行符
-        for (size_t i = 0; i < X.size(); i++) {
-            outfile << X[i] << "\n";
-        }
-
-        // 关闭输出文件流
-        outfile.close();
-        std::cout << "vector output to file:v1p.csv\n";
-}
     
 
