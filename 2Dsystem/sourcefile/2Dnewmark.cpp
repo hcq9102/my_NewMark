@@ -40,9 +40,6 @@ int main()
     DynamicVector<double,columnVector> temp = -K * d;
     a = inv(M) * temp;
     
-    //a = tem * blaze::DynamicVector<double>(-K*d);   // compute a using matrix inversion and matrix-vector multiplication
-    //std::cout << "a \n" << a << std::endl; ????? 小精度的都不太对
-    
     int iii = 1;
     for (int jj = 0; jj < gcoord.rows();++jj) {
         if (gcoord(jj, 0) == 0.0) {
@@ -168,22 +165,10 @@ int main()
         // CORRECTOR PHASE
         d1N = d1N + beta_b * (dt*dt)*a1N;
         v1N = v1N+(1-gamma_b)*dt*a1N;
-            
-            /**
-             * SUBSTITUTING
-                U_d(:,n+1)=d1;
-                U_v(:,n+1)=v1;
-                U_a(:,n+1)=a1;
-             */
-        for( size_t i=0UL; i<sdof; i++ ) {     
-            U_dN(i,n+1) = d1N[i];
-            U_vN(i,n+1) = v1N[i];
-            U_aN(i,n+1) = a1N[i];
-
-        }
-        // column(U_d, n+1) = d1;
-        // column(U_v, n+1) = v1; 
-        // column(U_a, n+1) = a1;
+       
+        column(U_d, n+1) = d1;
+        column(U_v, n+1) = v1; 
+        column(U_a, n+1) = a1;
 
         d = d1N;
         v = v1N;
