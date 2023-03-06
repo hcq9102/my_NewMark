@@ -290,24 +290,6 @@ int main()
         n++;  
         std::cout<<n<<std::endl;   
     } 
-    
-    
-    // for plotting
-    std::ofstream fout0("2D_Newmark_U_dN_plot_res_106_referSol.csv");
-    fout0 << "dt,U_dN\n";
-    for (std::size_t step = 0; step <= ntN; step++){
-        fout0 << dtN*step<< ","
-            <<U_dN(106,step) << "\n";
-    }
-    fout0.close();
-
-    std::ofstream fout2("2D_Newmark_U_dN_plot_res_52_referSol.csv");
-    fout2 << "dt,U_dN\n";
-    for (std::size_t step = 0; step <= ntN; step++){
-        fout2 << dtN*step<< ","
-            <<U_dN(52,step) << "\n";
-    }
-    fout2.close();
-
+   
     return 0;  
 }
