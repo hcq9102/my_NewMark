@@ -331,8 +331,7 @@ int main()
             
             dd = abs(e_t);
             e = max(dd);
-            std::cout<<"i : "<< i << std::endl;
-            std::cout<<"e : "<< e << std::endl;
+            
             WR_STOR_1=WR;
         }
     }
