@@ -40,6 +40,9 @@ const size_t rho=1;              //density of the material
 double dt=0.01;            //time step
 const size_t nt=5000;            //number of time steps
 
+double dtN=0.0001;            //finer time step
+const size_t ntN=500000;            //finer number of time steps
+
 double beta_b=0.2500;         //Newmark predictor corrector parameter beta
 double gamma_b=0.5000;        //Newmark predictor corrector parameter gamma         
 
@@ -88,6 +91,7 @@ blaze::DynamicVector<double> eldisp(edof);       //element displacement vector
 blaze::DynamicVector<double> v(sdof);            //system velocity vector
 blaze::DynamicVector<double> a(sdof);            //system acceleration vector
 blaze::DynamicMatrix <double> fd(sdof,nt+1);     //forces matrices (over dofs and time)
+blaze::DynamicMatrix <double> fdN(sdof,ntN+1);     //refer_sol :forces matrices (over dofs and time)
 
 blaze::DynamicMatrix <double> kinmtx(3,edof);     //kinematic matrix
 blaze::DynamicMatrix <double> matmtx(3,3);        //constitutive matrix
