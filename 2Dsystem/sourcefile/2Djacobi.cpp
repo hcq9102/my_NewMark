@@ -43,9 +43,6 @@ int main()
     DynamicVector<double,columnVector> temp = -K * d;
     a = inv(M) * temp;
     
-    //a = tem * blaze::DynamicVector<double>(-K*d);   // compute a using matrix inversion and matrix-vector multiplication
-    //std::cout << "a \n" << a << std::endl; ????? 小精度的都不太对
-    
     int iii = 1;
     for (int jj = 0; jj < gcoord.rows();++jj) {
         if (gcoord(jj, 0) == 0.0) {
@@ -54,11 +51,8 @@ int main()
         }
         iii += 2;
     }
-    
-    
+      
     a0 = a;
-    
-    //fd(:,1);
 
      /*
      -------------------------------------------------------------------------
@@ -66,7 +60,7 @@ int main()
      -------------------------------------------------------------------------
      */   
 
-    //1. Partitioning
+    // 1. Partitioning
     // for jacobi:... get K, M _plus and minus matrices
     DynamicMatrix<double> M_plus_j, K_plus_j, K_minus_j;
     M_plus_j = diagMatrix(M);
@@ -74,7 +68,7 @@ int main()
     K_minus_j = K_plus_j - K;
 
 
-    //2.Initialization
+    // 2. Initialization
     DynamicVector<double,columnVector > d_0, v_0, a_0;  
     d_0=d;        // vector of the initial imposed displacement = [0;0;1.5;0;3.0;0;4.5;0;6.0;0;7.5;0;9.0;0;10.5;0;12;0...]
     v_0=v;        // vector of the initial imposed velocity = [0;0;...0;0]
