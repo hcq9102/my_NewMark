@@ -103,7 +103,6 @@ int main()
     DynamicMatrix <double> WR_STOR_1(WR);
     DynamicMatrix<double> WR_STOR_2(sdof, nt+1);
      
-
     /*
     ---------------------------------------------------------------
     Initialize error 'e' and the counting 'i' of the number of iterations performed
