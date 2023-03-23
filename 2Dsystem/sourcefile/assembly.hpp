@@ -20,7 +20,7 @@
 
 
 // get element matrix
-blaze::DynamicMatrix <double> geGlobal_k(int ngx, int ngy, int iop, int emodul, double poisso, int ne, int nne, int ndo){
+blaze::DynamicMatrix <double> geGlobal_k(const int ngx, const int ngy, const int iop, const int emodul, const double poisso, const int ne, const int nne, const int ndo){
     /*
     -----------------------------------------
      STIFFNESS MATRIX
@@ -95,7 +95,7 @@ blaze::DynamicMatrix <double> geGlobal_k(int ngx, int ngy, int iop, int emodul, 
     return K;
 }
 
-blaze::DynamicMatrix <double> geGlobal_m(int lump, int ne, int nne, int ndo){
+blaze::DynamicMatrix <double> geGlobal_m(const int lump, const int ne, const int nne, const int ndo){
     // -----------------------------------
     // ELEMENT (mass) matrix
     // -----------------------------------

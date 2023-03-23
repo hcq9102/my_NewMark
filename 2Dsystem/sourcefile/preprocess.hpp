@@ -191,7 +191,7 @@ std::vector<size_t> to_cancel{0,1,18,19,36,37,54,55,72,73,90,91};
 
 
 // diagnoal matrice
-blaze::DynamicMatrix<double> diagMatrix(blaze::DynamicMatrix<double> &Y){
+blaze::DynamicMatrix<double> diagMatrix(const blaze::DynamicMatrix<double> &Y){
     blaze::DynamicMatrix<double> D(Y.rows(), Y.columns());
     for(size_t i = 0UL; i <Y.rows(); i++){
         for(size_t j = 0UL; j< Y.columns(); j++){
@@ -207,7 +207,7 @@ blaze::DynamicMatrix<double> diagMatrix(blaze::DynamicMatrix<double> &Y){
 
 
 //-----------------------------------------------------------------------
-blaze::DynamicMatrix <double> feasmbl1_m(blaze::DynamicMatrix <double> &X,blaze::DynamicMatrix <double> &x,blaze::DynamicVector<double, blaze::columnVector> &idx_m){
+blaze::DynamicMatrix <double> feasmbl1_m(blaze::DynamicMatrix <double> &X, const blaze::DynamicMatrix <double> &x, const blaze::DynamicVector<double, blaze::columnVector> &idx_m){
     int edof = idx_m.size();
     for(int i =0; i<edof; i++){
         int ii = idx_m[i];
@@ -220,14 +220,14 @@ blaze::DynamicMatrix <double> feasmbl1_m(blaze::DynamicMatrix <double> &X,blaze:
 }
 
 
-void federiv2(int n,blaze::DynamicVector<double> &r,blaze::DynamicVector<double> &s,blaze::DynamicMatrix <double> &z){
+void federiv2(const int n, const blaze::DynamicVector<double> &r, const blaze::DynamicVector<double> &s,const blaze::DynamicMatrix <double> &z){
     for(int i  = 0; i< n; i++ ){
         dhdx[i] = z(0,0) * r[i] + z(0,1) * s[i];
         dhdy[i] = z(1,0) * r[i] + z(1,1) * s[i];
     }
 } 
 
-void fekine2D(int n,blaze::DynamicVector<double> &dx,blaze::DynamicVector<double> &dy ){
+void fekine2D(const int n, const blaze::DynamicVector<double> &dx, const blaze::DynamicVector<double> &dy ){
     for(int i  = 0; i< n; i++ ){
         int i1 = 2 *i;
         int i2 = i1 + 1;
@@ -238,7 +238,7 @@ void fekine2D(int n,blaze::DynamicVector<double> &dx,blaze::DynamicVector<double
     }
 }
 
-blaze::DynamicVector<double> feeldofk(blaze::DynamicVector<double> &nd_k, int x, int y){
+blaze::DynamicVector<double> feeldofk(const blaze::DynamicVector<double> &nd_k, const int x, const int y){
     int edof = x * y;
     blaze::DynamicVector<double> resk(edof);
     int k = 0;
@@ -254,7 +254,7 @@ blaze::DynamicVector<double> feeldofk(blaze::DynamicVector<double> &nd_k, int x,
     
 }
 
-blaze::DynamicVector<double> feeldofm(blaze::DynamicVector<double> &nd_m, int x, int y){
+blaze::DynamicVector<double> feeldofm(const blaze::DynamicVector<double> &nd_m, const int x, const int y){
     int edof = x * y;
     blaze::DynamicVector<double> resm(edof);
     int k = 0;
@@ -271,7 +271,7 @@ blaze::DynamicVector<double> feeldofm(blaze::DynamicVector<double> &nd_m, int x,
 }
 
 //find corresponding integration points and weights
-void feglqd1x(int z){
+void feglqd1x(const int z){
     if(z == 1){
         pointx ={{0.0, 0.0}};
         weightx ={{2.0, 2.0}};
@@ -282,7 +282,7 @@ void feglqd1x(int z){
     }
 }
 
-void feglqd1y(int y){
+void feglqd1y(const int y){
     if(y == 1){
         pointy ={{0.0, 0.0}};
         weighty ={{2.0, 2.0}};
@@ -293,7 +293,7 @@ void feglqd1y(int y){
     }
 }
 
-void feglqd2(int x, int y){
+void feglqd2(const int x, const int y){
       
     // find corresponding integration points and weights
     feglqd1x(x);
@@ -310,7 +310,7 @@ void feglqd2(int x, int y){
 }
 
 template<typename T>
-void feisoq4(T x, T y){
+void feisoq4(const T x, const T y){
     
     // shape functions
     shape[0] = 0.25*(1-x)*(1-y); //N(1)
@@ -331,7 +331,7 @@ void feisoq4(T x, T y){
 }
 
 
-blaze::DynamicMatrix <double> fejacobi2( int n, blaze::DynamicVector<double> &r,blaze::DynamicVector<double> &s, blaze::DynamicVector<double> &xcrd,blaze::DynamicVector<double> &ycrd ){
+blaze::DynamicMatrix <double> fejacobi2(const int n, const blaze::DynamicVector<double> &r,const blaze::DynamicVector<double> &s, const  blaze::DynamicVector<double> &xcrd, const blaze::DynamicVector<double> &ycrd ){
     blaze::DynamicMatrix <double> res{{0,0},{0,0}};
     for(int i = 0; i< n; i++){
         res(0,0)=res(0,0)+r[i]*xcrd[i];
@@ -343,7 +343,7 @@ blaze::DynamicMatrix <double> fejacobi2( int n, blaze::DynamicVector<double> &r,
 }
 
 
-void fematiso(int x, int y, double z){ 
+void fematiso(const int x, const int y, const double z){ 
     if(x == 1){
         blaze::StaticMatrix<double,3UL, 3UL> temp1= {{1,z,0},{z,1,0},{0,0,(1-z)/2}};
         matmtx = (y / (1-z*z))* temp1;
@@ -356,7 +356,7 @@ void fematiso(int x, int y, double z){
 
 // decompose
 // diagnoal matrice
-blaze::DynamicMatrix<double> lowerMatrix(blaze::DynamicMatrix<double>& Y){
+blaze::DynamicMatrix<double> lowerMatrix(const blaze::DynamicMatrix<double>& Y){
     blaze::DynamicMatrix<double> X(Y);
     for(size_t i = 0UL; i <Y.rows(); i++){
         for(size_t j = i+1; j< Y.columns(); j++){
@@ -366,7 +366,7 @@ blaze::DynamicMatrix<double> lowerMatrix(blaze::DynamicMatrix<double>& Y){
     return X;
 }
 
-void print_X_value(blaze::DynamicMatrix <double> &X){
+void print_X_value(const blaze::DynamicMatrix <double> &X){
 
     std::ofstream file("2DWR_matrix.csv"); // create an output file stream
     if (file.is_open())

@@ -218,9 +218,27 @@ int main()
         }else{ //iteration number is odd 
             WR_STOR_2 = WR;
             //clear(e_t);
+            
+            auto diff = WR_STOR_2 - WR_STOR_1;
+
             for (int n1 = 0; n1 < nt + 1; ++n1) {
-                e_t(n1, 0) = blaze::l2Norm(blaze::column(WR_STOR_2, n1) - blaze::column(WR_STOR_1, n1));
+                //e_t(n1, 0) = blaze::l2Norm(blaze::column(WR_STOR_2, n1) - blaze::column(WR_STOR_1, n1));
+                e_t(n1, 0) = blaze::l2Norm(blaze::column(diff, n1) );
             }
+
+/*
+            i=1
+e 
+5.21786
+i=3
+e 
+12259.5
+i=5
+e 
+4.05577e+07
+i=7
+
+*/
             
             dd = abs(e_t);
             e = max(dd);
@@ -230,13 +248,13 @@ int main()
         }
     }
     // for plotting
-    std::ofstream fout0("2D_Jaco_WR_plot_res_52.csv");
-    fout0 << "dt,WR\n";
-    for (std::size_t step = 0; step <= nt; step++){
-        fout0 << dt*step<< ","
-             <<WR(52,step) << "\n";
-    }
-    fout0.close();
+    //std::ofstream fout0("2D_Jaco_WR_plot_res_52.csv");
+    //fout0 << "dt,WR\n";
+    //for (std::size_t step = 0; step <= nt; step++){
+    //    fout0 << dt*step<< ","
+    //         <<WR(52,step) << "\n";
+    //}
+    //fout0.close();
 
     return 0;   
 }
