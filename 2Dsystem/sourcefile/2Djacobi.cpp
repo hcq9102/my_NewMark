@@ -165,6 +165,11 @@ int main()
         
 
         int n = 0;
+
+        invert(L);
+        invert(U);
+
+
         while(n<nt){
             // PREDICTOR PHASE
             d1p = d + dt*v + ((dt*dt)/2) * (1-2*beta_b)*a;
@@ -183,8 +188,9 @@ int main()
 
 
             //LU_decomposition
-            z = inv(L) * b;
-            a_int = inv(U) * z ;
+
+            z = L * b;
+            a_int = U * z ;
            
             reset(a1);
             for (int i = 0; i < to_use.size(); ++i) {
@@ -225,20 +231,6 @@ int main()
                 //e_t(n1, 0) = blaze::l2Norm(blaze::column(WR_STOR_2, n1) - blaze::column(WR_STOR_1, n1));
                 e_t(n1, 0) = blaze::l2Norm(blaze::column(diff, n1) );
             }
-
-/*
-            i=1
-e 
-5.21786
-i=3
-e 
-12259.5
-i=5
-e 
-4.05577e+07
-i=7
-
-*/
             
             dd = abs(e_t);
             e = max(dd);
