@@ -13,6 +13,13 @@ chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/2Dsystem/2Dj_g_n$ g++ -g -I/home
    chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/2Dsystem/2Dj_g_n$ ./jaco3 
    
    
+   3.29 add release type: -O2 -DNDEBUG
+   g++ -O2 -DNDEBUG -I/home/chuanqiu/Blaze/blaze -llapack -fopenmp 2Djacobi.cpp -o jaco3
+   
+   result:
+   it will run in 94 seconds on 1 thread.
+   
+   
    
    
 
