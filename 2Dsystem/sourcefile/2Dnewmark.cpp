@@ -35,7 +35,7 @@ int main()
     geGlobal_m(lumped, nel, nnel, ndof);
     
    //Initial acceleration
-    blaze::DynamicVector<double> a0(sdof);
+    blaze::DynamicVector<double> a0(sdof,0.0);
     
     DynamicVector<double,columnVector> temp = -K * d;
     a = inv(M) * temp;
@@ -105,70 +105,70 @@ int main()
 
     int rowsize = to_use.size();
    
-    blaze::DynamicVector<double> d1N(sdof);
-    blaze::DynamicVector<double,columnVector> v1N(sdof);
-    blaze::DynamicVector<double,columnVector> b;
+    DynamicVector<double> d1N(sdof,0.0);
+    DynamicVector<double,columnVector> v1N(sdof,0.0);
+    //blaze::DynamicVector<double,columnVector> b;
     blaze::DynamicMatrix<double,columnMajor> A;
     blaze::DynamicMatrix<double,columnMajor> L, U, P;
 
-    blaze::DynamicVector<double,columnVector > z(sdof);
+    //blaze::DynamicVector<double,columnVector > z(sdof);
     blaze::DynamicVector<double,columnVector > a1N(sdof,1);
-    blaze::DynamicVector<double,columnVector > a1N_int(96);
+    //blaze::DynamicVector<double,columnVector > a1N_int(96);
    
 
-    blaze::DynamicVector<double> d1N_touse(rowsize);
-    blaze::DynamicMatrix<double> K_touse(rowsize,rowsize);
-    blaze::DynamicMatrix<double> fd_touse(rowsize, nt+1);
+    // blaze::DynamicVector<double> d1N_touse(rowsize);
+    // blaze::DynamicMatrix<double> K_touse(rowsize,rowsize);
+    // blaze::DynamicMatrix<double> fd_touse(rowsize, nt+1);
   
-    blaze::DynamicMatrix<double,columnMajor> A_touse(rowsize, rowsize);
+    DynamicMatrix<double,columnMajor> A_touse(rowsize, rowsize);
     
+    double corrector_factor1 = beta_b * (dt*dt);
+    double corrector_factor2 = (1-gamma_b)*dt;
+    double corrector_factor3 = ((dt*dt)/2) * (1-2*beta_b);
 
     // calculate
-    A = M + beta_b *(dt*dt)*K;
+    A = M + corrector_factor1*K;
         
     A_touse = rows(columns(A, to_use),to_use); 
     lu(A_touse, L, U, P);
 
+    blaze::invert(L);
+    blaze::invert(U);
+
     int n = 0;
     while(n<nt){
         // PREDICTOR PHASE
-        d1N = d + dt*v + ((dt*dt)/2) * (1-2*beta_b)*a;
-        v1N = v + (1-gamma_b)*dt*a;
-            
+        d1N = d + dt*v + corrector_factor3*a;
+        v1N = v + corrector_factor2*a;   
             
         //SOLUTION
-        K_touse = rows(columns(K, to_use),to_use);  // rows, columns, num_rows, num_cols
+        // K_touse = rows(columns(K, to_use),to_use);  // rows, columns, num_rows, num_cols
             
-        //reset(d1p_touse);
-        d1N_touse = elements(d1N, to_use);
+        // //reset(d1p_touse);
+        // d1N_touse = elements(d1N, to_use);
 
-        //clear(fd1_touse);
-        fd_touse = rows(fd,to_use);
+        // //clear(fd1_touse);
+        // fd_touse = rows(fd,to_use);
             
-        b = column(fd_touse, n+1) - K_touse * d1N_touse ;
+        // b = column(fd_touse, n+1) - K_touse * d1N_touse ;
 
 
-        //LU_decomposition
-        z = inv(L) * b; 
-        a1N_int = inv(U) * z ;
+        // //LU_decomposition
+        // z = inv(L) * b; 
+        // a1N_int = inv(U) * z ;
 
         // reconstruct the global acceleration a1N   
         reset(a1N);
-        for (int i = 0; i < to_use.size(); ++i) {
-            a1N[to_use[i]] = a1N_int[i];
-        }
-        for (int j = 0; j< to_cancel.size();++j){
-            a1N[to_cancel[j]] = 0.0;
-        }
-        //elements(a1,to_cancel) = 0.0;
+        elements(a1N,to_use) = U*L * (column(rows(fd,to_use), n+1) - rows(columns(K, to_use),to_use) * elements(d1N, to_use)); 
+        elements(a1N,to_cancel) = 0.0;
 
         // CORRECTOR PHASE
-        d1N = d1N + beta_b * (dt*dt)*a1N;
-        v1N = v1N+(1-gamma_b)*dt*a1N;
+        d1N = d1N + corrector_factor1*a1N;
+        v1N = v1N+corrector_factor1*a1N;
        
-        column(U_d, n+1) = d1;
-        column(U_v, n+1) = v1; 
-        column(U_a, n+1) = a1;
+        column(U_dN, n+1) = d1N;
+        column(U_vN, n+1) = v1N; 
+        column(U_aN, n+1) = a1N;
 
         d = d1N;
         v = v1N;
@@ -178,7 +178,7 @@ int main()
     } 
 
     // for plotting
-    std::ofstream fout0("2D_Newmark_U_dN_plot_res_106.csv");
+    std::ofstream fout0("2D_Newmark_U_dN_plot_res_106_faster.csv");
     fout0 << "dt,U_dN\n";
     for (std::size_t step = 0; step <= nt; step++){
         fout0 << dt*step<< ","
@@ -186,7 +186,7 @@ int main()
     }
     fout0.close();
 
-    std::ofstream fout2("2D_Newmark_U_dN_plot_res_52.csv");
+    std::ofstream fout2("2D_Newmark_U_dN_plot_res_52_faster.csv");
     fout2 << "dt,U_dN\n";
     for (std::size_t step = 0; step <= nt; step++){
         fout2 << dt*step<< ","

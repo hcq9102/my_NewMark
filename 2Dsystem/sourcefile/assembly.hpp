@@ -20,7 +20,7 @@
 
 
 // get element matrix
-blaze::DynamicMatrix <double> geGlobal_k(int ngx, int ngy, int iop, int emodul, double poisso, int ne, int nne, int ndo){
+blaze::DynamicMatrix <double> geGlobal_k(int ngx, int ngy, int iop, int emodul, double poisso, size_t ne, size_t nne, size_t ndo){
     /*
     -----------------------------------------
      STIFFNESS MATRIX
@@ -37,7 +37,7 @@ blaze::DynamicMatrix <double> geGlobal_k(int ngx, int ngy, int iop, int emodul, 
     //int count = 0;
 
     for (int iel = 0; iel < ne; ++iel) { // loop over the total number of elements
-        blaze::DynamicMatrix <double> kel = kel0;      //initialization of element (stiffness) matrix as all zeros
+        reset(kel);      //initialization of element (stiffness) matrix as all zeros   
         for (int i = 0; i < nne; ++i) {
             nd[i] = nodes(iel, i); // extract nodes for the (iel)-th element
             xcoord[i] = gcoord(nd[i]-1, 0); // extract x value of the node
@@ -67,9 +67,10 @@ blaze::DynamicMatrix <double> geGlobal_k(int ngx, int ngy, int iop, int emodul, 
 
                 // determinant of Jacobian
                 detjacob= det(jacobi2);
-                //std::cout << "detjacob " <<detjacob << std::endl;
+                
                 //inverse of Jacobian matrix
-                blaze::DynamicMatrix<double> invjacob = inv(jacobi2);
+                blaze::DynamicMatrix<double> invjacob = blaze::inv(jacobi2);
+                
 
                 //derivatives w.r.t. physical coordinate
                 federiv2(nnel,dhdr,dhds,invjacob);
@@ -85,23 +86,19 @@ blaze::DynamicMatrix <double> geGlobal_k(int ngx, int ngy, int iop, int emodul, 
                 kel = kel + (trans(kinmtx2) * matmtx) * kinmtx2 * (wtx*wty *detjacob);
             }
         }
-
         //extract system dofs for the element
         indexk = feeldofk(nd,nne,ndo);                     
         //assemble element matrices in the global one
-        K=feasmbl1_m(K,kel,indexk); //K=feasmbl1(K,kel,index);  
-  
+        feasmbl1_m(K,kel,indexk); //K=feasmbl1(K,kel,index);  
     }
     return K;
 }
 
-blaze::DynamicMatrix <double> geGlobal_m(int lump, int ne, int nne, int ndo){
+blaze::DynamicMatrix <double> geGlobal_m(int lump, size_t ne, size_t nne, size_t ndo){
     // -----------------------------------
     // ELEMENT (mass) matrix
-    // -----------------------------------
-   
-    blaze::DynamicMatrix <double> mel = mel0;
-
+    // ----------------------------------- 
+    reset(mel);
     if (lump == 0) {
         mel = ((rho * elArea) / 36) * consistent_mel;
     } else if (lump == 1) {
@@ -115,9 +112,8 @@ blaze::DynamicMatrix <double> geGlobal_m(int lump, int ne, int nne, int ndo){
         }
  
     indexm = feeldofm(ndm,nnel,ndo);
-    M=feasmbl1_m(M,mel,indexm); //assemble element matrices in the global one  
+    feasmbl1_m(M,mel,indexm); //assemble element matrices in the global one  
    }
-
    return M;
 }
 
