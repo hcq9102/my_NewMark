@@ -165,6 +165,11 @@ int main()
         
 
         int n = 0;
+
+        invert(L);
+        invert(U);
+
+
         while(n<nt){
             // PREDICTOR PHASE
             d1p = d + dt*v + ((dt*dt)/2) * (1-2*beta_b)*a;
@@ -183,8 +188,9 @@ int main()
 
 
             //LU_decomposition
-            z = inv(L) * b;
-            a_int = inv(U) * z ;
+
+            z = L * b;
+            a_int = U * z ;
            
             reset(a1);
             for (int i = 0; i < to_use.size(); ++i) {
@@ -218,8 +224,12 @@ int main()
         }else{ //iteration number is odd 
             WR_STOR_2 = WR;
             //clear(e_t);
+            
+            auto diff = WR_STOR_2 - WR_STOR_1;
+
             for (int n1 = 0; n1 < nt + 1; ++n1) {
-                e_t(n1, 0) = blaze::l2Norm(blaze::column(WR_STOR_2, n1) - blaze::column(WR_STOR_1, n1));
+                //e_t(n1, 0) = blaze::l2Norm(blaze::column(WR_STOR_2, n1) - blaze::column(WR_STOR_1, n1));
+                e_t(n1, 0) = blaze::l2Norm(blaze::column(diff, n1) );
             }
             
             dd = abs(e_t);
@@ -230,13 +240,13 @@ int main()
         }
     }
     // for plotting
-    std::ofstream fout0("2D_Jaco_WR_plot_res_52.csv");
-    fout0 << "dt,WR\n";
-    for (std::size_t step = 0; step <= nt; step++){
-        fout0 << dt*step<< ","
-             <<WR(52,step) << "\n";
-    }
-    fout0.close();
+    //std::ofstream fout0("2D_Jaco_WR_plot_res_52.csv");
+    //fout0 << "dt,WR\n";
+    //for (std::size_t step = 0; step <= nt; step++){
+    //    fout0 << dt*step<< ","
+    //         <<WR(52,step) << "\n";
+    //}
+    //fout0.close();
 
     return 0;   
 }
