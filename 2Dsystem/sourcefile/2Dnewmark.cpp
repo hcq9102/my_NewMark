@@ -164,7 +164,7 @@ int main()
 
         // CORRECTOR PHASE
         d1N = d1N + corrector_factor1*a1N;
-        v1N = v1N+corrector_factor1*a1N;
+        v1N = v1N+corrector_factor2*a1N;
        
         column(U_dN, n+1) = d1N;
         column(U_vN, n+1) = v1N; 
