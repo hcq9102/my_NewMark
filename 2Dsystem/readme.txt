@@ -24,6 +24,9 @@ chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/2Dsystem/2Dj_g_n$ g++ -g -I/home
    
    https://github.com/PeriHPX/PeriHPX/blob/main/CMakeLists.txt#L65
    
+   ...
+   https://github.com/PeriHPX/PeriHPX/blob/main/CMakeLists.txt#L121-L122
+   
    
    
    
