@@ -2,7 +2,7 @@
 
 ### 1. g++ compile
 
-chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/2Dsystem/2Dj_g_n$ g++ -g -I/home/chuanqiu/Blaze/blaze -llapack 2Djacobi.cpp -o 2d_jacobi
+      chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/2Dsystem/2Dj_g_n$ g++ -g -I/home/chuanqiu/Blaze/blaze -llapack 2Djacobi.cpp -o 2d_jacobi
 
    2.23 faster:
    
@@ -21,7 +21,9 @@ chuanqiu@rostam1:/work/chuanqiu/Dynamic_project/2Dsystem/2Dj_g_n$ g++ -g -I/home
       it will run in 80 seconds on 1 thread.
    
    ////////////////////////////////////////////////////
-### 2. see the performance benefit using hpx threads
+### 2. CMAKE 
+
+      --see the performance benefit using hpx threads
      
    Write CMakeLists.txt file.
    
