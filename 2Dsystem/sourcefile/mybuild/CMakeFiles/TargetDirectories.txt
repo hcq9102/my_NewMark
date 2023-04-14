@@ -1,0 +1,10 @@
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/sourcefile/mybuild/CMakeFiles/2Djaco.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/sourcefile/mybuild/CMakeFiles/2Dgaus.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/sourcefile/mybuild/CMakeFiles/2Dnewmark.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/sourcefile/mybuild/CMakeFiles/2Dnewmark_finer.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/sourcefile/mybuild/CMakeFiles/edit_cache.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/sourcefile/mybuild/CMakeFiles/rebuild_cache.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/sourcefile/mybuild/CMakeFiles/list_install_components.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/sourcefile/mybuild/CMakeFiles/install.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/sourcefile/mybuild/CMakeFiles/install/local.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/sourcefile/mybuild/CMakeFiles/install/strip.dir
