@@ -6,8 +6,13 @@ There are 4 source files of different methods: Jacobi, Gauss seidel, Newmark, Ne
       2Djacobi.cpp
       preprocess.hpp
       assembly.hpp
+<<<<<<< HEAD
       
 2) Run: g++ -O2 -DNDEBUG -g -I/home/chuanqiu/Blaze/blaze -llapack -fopenmp 2Djacobi.cpp -o 2Djacobi
+=======
+      CMakeLists.txt
+2) Run: g++ -g -I/home/chuanqiu/Blaze/blaze -llapack -fopenmp 2Djacobi.cpp -o 2Djacobi
+>>>>>>> 5c385121aa56b81bc9311fce3b4700bf267814e5
 
 
 // cmake
