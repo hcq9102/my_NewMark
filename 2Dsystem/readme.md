@@ -59,6 +59,9 @@
          
 #### How to Build
 
+add release build type: 
+         https://github.com/hcq9102/my_NewMark/blob/optimize2/2Dsystem/sourcefile/CMakeLists.txt#L4
+
       cmake -DHPX_DIR=/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64/cmake/HPX -Dblaze_DIR=/home/chuanqiu/Blaze/blaze/share/blaze/cmake ..
    
    
