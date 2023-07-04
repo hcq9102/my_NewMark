@@ -1,0 +1,7 @@
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/src/2Djacobi_gmshVtk/yamlbuild/CMakeFiles/2Djaco.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/src/2Djacobi_gmshVtk/yamlbuild/CMakeFiles/edit_cache.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/src/2Djacobi_gmshVtk/yamlbuild/CMakeFiles/rebuild_cache.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/src/2Djacobi_gmshVtk/yamlbuild/CMakeFiles/list_install_components.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/src/2Djacobi_gmshVtk/yamlbuild/CMakeFiles/install.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/src/2Djacobi_gmshVtk/yamlbuild/CMakeFiles/install/local.dir
+/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/src/2Djacobi_gmshVtk/yamlbuild/CMakeFiles/install/strip.dir
