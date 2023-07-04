@@ -1,0 +1,1 @@
+chuanqiu@rostam1:/work/chuanqiu/work2Dintegrating/my_NewMark/2Dsystem/src/2Djacobi/mybuild$ cmake -DHPX_DIR=/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64/cmake/HPX -Dblaze_DIR=/home/chuanqiu/Blaze/blaze/share/blaze/cmake -DGmsh_DIR=/home/chuanqiu/installworkgmsh/bin/gmsh ..
