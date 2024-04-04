@@ -1,0 +1,7 @@
+
+
+env:medusa ; gcc/12.2.0 ; cmake/3.23.2
+
+
+//   ~/2Djacobi build
+chuanqiu@medusa11:/work/chuanqiu/2Dsystem/my_NewMark/2Dsystem/src/2Djacobi_gmshVtk/yamlbuild$ cmake -DHPX_DIR=/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64/cmake/HPX -Dblaze_DIR=/home/chuanqiu/Blaze/blaze/share/blaze/cmake -DGMSH_DIR=/home/chuanqiu/installworkgmsh/lib64 -DGMSH_INCLUDE=/home/chuanqiu/installworkgmsh/include -DYaml-Cpp_DIR=/home/chuanqiu/workyaml/yamlinstall/lib64/cmake/yaml-cpp ..

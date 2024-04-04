@@ -1,19 +1,34 @@
 # for 2DJacobi 
 cmake_minimum_required(VERSION 3.13)
-project(2Dproject LANGUAGES CXX C)
+project(2Dsystem LANGUAGES CXX C)
+set(CMAKE_BUILD_TYPE Release)
+
+find_package(blaze REQUIRED NO_CMAKE_PACKAGE_REGISTRY)
+include("${blaze_DIR}/blaze-config-version.cmake")
+link_libraries(blaze::blaze)
 
 
-#find_package(blaze REQUIRED)
-#add_executable(FirstExample FirstExample.cpp)
-#target_link_libraries( FirstExample INTERFACE blaze::blaze )
+# BLAS and LAPACK
+find_package(LAPACK REQUIRED)
+find_package(BLAS REQUIRED)
 
-find_package(blaze REQUIRED)
+find_package(HPX REQUIRED)
+#if (HPX_FOUND)
+#  include_directories(${HPX_INCLUDE_DIRS})
+#endif()
 
-if( blaze_FOUND )
-        add_library( 2Djacobi 2Djacobi.cpp )
-        add_executable(2Djacobi_exe 2Djacobi.cpp)
-        target_link_libraries(2Djacobi_exe INTERFACE blaze::blaze )
-endif()
+# Enable HPX inside blaze
+add_definitions(-DBLAZE_USE_HPX_THREADS)
+add_hpx_executable(2Djaco SOURCES 2Djacobi.cpp DEPENDENCIES ${LAPACK_LIBRARIES})
+add_hpx_executable(2Dgaus SOURCES 2Dgausidel.cpp DEPENDENCIES ${LAPACK_LIBRARIES})
+add_hpx_executable(2Dnewmark SOURCES 2Dnewmark.cpp DEPENDENCIES ${LAPACK_LIBRARIES})
+add_hpx_executable(2Dnewmark_finer SOURCES 2Dfiner_Newmark_refer_sol.cpp DEPENDENCIES ${LAPACK_LIBRARIES})
+
+#target_link_libraries(2Djaco ${BLAS_LIBRARIES} ${HPX_LIBRARIES})
 
 
-#preprocess.h getRes.hpp feglqd2.hpp feasmbl1_1m.hpp federiv2.hpp feeldof_m.hpp feglqd1xy.hpp feisoq4.hpp fejacobi2.hpp fematiso.hpp
+# include important directories
+include_directories(sourceflie)
+
+
+

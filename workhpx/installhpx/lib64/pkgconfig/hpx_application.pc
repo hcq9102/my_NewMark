@@ -1,0 +1,13 @@
+# Copyright (c) 2018 Christopher Hinz
+# Copyright (c) 2014 Thomas Heller
+# Copyright (c) 2012 Bryce Adelstein-Lelbach
+#
+# SPDX-License-Identifier: BSL-1.0
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+Name: hpx_application
+Description: High Performance ParalleX (application configuration)
+Version: 1.9.0
+Libs:  -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -lhpx -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -lhpx_core -latomic -ldl -lrt -L/opt/apps/hwloc/2.7.1/lib -lhwloc -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -lhpx -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -lhpx_core -latomic -ldl -lrt -L/opt/apps/hwloc/2.7.1/lib -lhwloc -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -lhpx_wrap /work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64/libhpx_wrap.a /work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64/libhpx_wrap.a -Wl,-wrap=main -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -lhpx_init /work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64/libhpx_init.a -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -L/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/lib64 -pthread -pthread -pthread -pthread
+Cflags:   -fPIC -DHPX_APPLICATION_EXPORTS -std=c++17 -pthread -pthread -pthread -pthread -I/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/include -I/opt/apps/gcc12/boost/1.80.0/release -I/opt/apps/hwloc/2.7.1/include -I/opt/apps/hwloc/2.7.1/include -I/work/chuanqiu/2Dsystem/my_NewMark/workhpx/installhpx/include
