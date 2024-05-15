@@ -1,6 +1,7 @@
-# my_Newmark
+### my_Newmark
 For recording/ log/ learn /plan.../
 
+### external lib
 Blaze:
 https://bitbucket.org/blaze-lib/blaze.git
 
