@@ -16,7 +16,7 @@
         d1(t) =
         d2(t) = 
         
-        implement the equations on the appendix A 方程组 d1(t) & d2(t);
+        implement the equations on the appendix A equation set d1(t) & d2(t);
         
         d1(t) will give you the displacement at time t for the first spring ?
         
