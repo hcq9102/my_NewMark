@@ -1,12 +1,14 @@
-### my_Newmark
-For recording/ log/ learn /plan.../
+## my_Newmark
+For development recording/ log/ learn /plan.../
 
-### 1D system
-folder: test825
-### 2D system
-folder: 2Dsystem
+##### 1D system src code
 
-### external lib
+    folder: test825
+##### 2D system src code
+
+    folder: 2Dsystem
+
+##### external lib
 Blaze:
 https://bitbucket.org/blaze-lib/blaze.git
 
