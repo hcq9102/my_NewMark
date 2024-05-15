@@ -3,10 +3,11 @@ For development recording/ log/ learn /plan.../
 
 ##### 1D system src code
 
-    folder: test825
+    folder: test825 source code
 ##### 2D system src code
 
-    folder: 2Dsystem
+    folder: 2Dsystem source code + results of d, v, a.
+    
 
 ##### external lib
 Blaze:
