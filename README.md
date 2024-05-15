@@ -1,10 +1,11 @@
 ## my_Newmark
 For development recording/ log/ learn /plan.../
 
-##### 1D system src code
+##### 1D system 
 
-    folder: test825 source code
-##### 2D system src code
+    source code folder: test825 
+    results folder: 1d_twomass_d_v_a_plots 
+##### 2D system 
 
     folder: 2Dsystem source code + results of d, v, a.
     
